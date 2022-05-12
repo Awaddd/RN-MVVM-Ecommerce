@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import styled from './Styled';
-import { spacing } from '../../utils/theme';
-import { Sizes } from '../../utils/types';
-import { getSize } from '../../utils/helpers';
+import { spacing } from '../theme';
+import { Sizes } from '../types';
+import { getSize } from '../helpers';
 
 const StyledGutter = styled(View, {
   width: 0.1,

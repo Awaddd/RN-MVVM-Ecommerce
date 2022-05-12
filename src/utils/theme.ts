@@ -6,13 +6,12 @@ export const colors = {
   accent: '#FF007F',
   dark: '#0d1321',
   gray: '#f5f5f5',
+  gray2: '#3A4454',
   light: '#fafafa',
   disabled: '#e5e5e5',
   white: '#fff',
   black: '#000',
   yellow: '#fcba03',
-  blue: '#3A4454',
-  red: '#FF0000',
 };
 
 export const spacing = {

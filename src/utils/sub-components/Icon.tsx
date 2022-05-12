@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getSize } from '../../utils/helpers';
-import { colors } from '../../utils/theme';
-import { SizeOptions } from '../../utils/types';
+import { getSize } from '../helpers';
+import { colors } from '../theme';
+import { SizeOptions } from '../types';
 
 MIcon.loadFont();
 
