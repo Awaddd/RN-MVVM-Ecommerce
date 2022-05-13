@@ -1,5 +1,6 @@
 export default interface Sneaker {
   id: string;
+  brand: string;
   name: string;
   variant: string;
   price: number;
@@ -9,4 +10,6 @@ export default interface Sneaker {
   }[];
   description: string;
   rating: number;
+  thumbnail: string;
+  images: string[];
 }

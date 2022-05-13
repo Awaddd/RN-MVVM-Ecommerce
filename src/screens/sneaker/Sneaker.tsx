@@ -18,20 +18,9 @@ import { RootStackParamList } from '../../../App';
 
 type Props = StackScreenProps<RootStackParamList, 'Sneaker'>;
 
-const images = [
-  'https://i.ytimg.com/vi/oo4yyieM63I/maxresdefault.jpg',
-  'https://www.allaboutanthony.com/wp-content/uploads/2020/10/Air-Jordan-4-Fire-Red-2020-WDYWT-On-Feet.jpg',
-  'https://www.lacesout.net/wp-content/uploads/2016/05/air-jordan4-on-feet.jpg',
-];
-
-const renderItem = ({ item }: any) => (
-  <View>
-    <Image source={{ uri: item }} style={{ width: '100%', height: '100%' }} />
-  </View>
-);
-
 const Home = ({ navigation: { navigate }, route: { params } }: Props) => {
   const [sneaker] = useSneakerFacade(params.id);
+
   if (!sneaker) {
     return (
       <Container>
@@ -41,7 +30,7 @@ const Home = ({ navigation: { navigate }, route: { params } }: Props) => {
       </Container>
     );
   }
-  console.log('sneaker', sneaker);
+
   return (
     <Container>
       <HomeContainer>
@@ -63,7 +52,7 @@ const Home = ({ navigation: { navigate }, route: { params } }: Props) => {
             </ActionBar>
           </ActionBarContainer>
           <Carousel
-            data={images}
+            data={sneaker.images}
             renderItem={renderItem}
             sliderWidth={400}
             itemWidth={400}
@@ -71,7 +60,7 @@ const Home = ({ navigation: { navigate }, route: { params } }: Props) => {
             enableMomentum={false}
             lockScrollWhileSnapping={true}
             loop
-            autoplayInterval={10000}
+            autoplayInterval={5000}
           />
         </ProductImageContainer>
         <ProductInfoContainer>
@@ -129,6 +118,12 @@ const Home = ({ navigation: { navigate }, route: { params } }: Props) => {
     </Container>
   );
 };
+
+const renderItem = ({ item }: any) => (
+  <View>
+    <Image source={{ uri: item }} style={{ width: '100%', height: '100%' }} />
+  </View>
+);
 
 const HomeContainer = styled(View, {
   flex: 1,

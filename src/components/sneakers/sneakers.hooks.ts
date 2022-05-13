@@ -2,29 +2,42 @@ import { useState, useEffect } from 'react';
 import Sneaker from './sneakers.interface';
 import sneakersService from './sneakers.service';
 
-export const useAllSneakersFacade = (): [Sneaker[]] => {
+export const useAllSneakersFacade = (): [Sneaker[], boolean] => {
   const [sneakers, setSneakers] = useState<Sneaker[]>([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      setSneakers((await sneakersService.getAll()) ?? []);
-    })();
+    const getData = async () => {
+      const data = await sneakersService.getAll();
+
+      if (!data || data.length === 0) {
+        setError(true);
+        return;
+      }
+
+      setSneakers(data);
+    };
+
+    getData();
   }, []);
 
-  return [sneakers];
+  return [sneakers, error];
 };
 
 export const useSneakerFacade = (id: string): [Sneaker | undefined] => {
   const [sneaker, setSneaker] = useState<Sneaker>();
 
   useEffect(() => {
-    (async () => {
-      if (!id) {
-        return;
-      }
+    if (!id) {
+      return;
+    }
 
-      setSneaker(await sneakersService.getByID(id));
-    })();
+    const getData = async () => {
+      const data = await sneakersService.getByID(id);
+      setSneaker(data);
+    };
+
+    getData();
   }, [id]);
 
   return [sneaker];

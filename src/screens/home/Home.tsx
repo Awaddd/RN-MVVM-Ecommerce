@@ -1,45 +1,66 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { FlatList, Image, View } from 'react-native';
 import { Button, Subheading, Text, Title } from 'react-native-paper';
 import { RootStackParamList } from '../../../App';
+import { useAllSneakersFacade } from '../../components/sneakers/sneakers.hooks';
 import Container from '../../containers/Container';
 import styled from '../../utils/sub-components/Styled';
 import { colors, spacing } from '../../utils/theme';
 
 type Props = StackScreenProps<RootStackParamList, 'Home'>;
 
-const Home = ({ navigation: { navigate } }: Props) => (
-  <Container>
-    <HomeTitle>Sneakers</HomeTitle>
-    <Content>
-      <Block>
-        <Label>Air Jordan 4s</Label>
-        <Brand>Nike</Brand>
-        <Description>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius
-          cupiditate ullam sapiente adipisci quaerat sint exercitationem atque
-          amet eos?
-        </Description>
-        <BlockImage
-          source={{
-            uri: 'https://i.ytimg.com/vi/oo4yyieM63I/maxresdefault.jpg',
-          }}
-        />
-        <ViewBtn
-          mode="contained"
-          onPress={() => {
-            navigate('Sneaker', {
-              id: '27b6ad06-ef68-4b1a-9e03-78a948251e34',
-            });
-          }}>
-          View
-        </ViewBtn>
-      </Block>
-    </Content>
-  </Container>
-);
+const Home = ({ navigation: { navigate } }: Props) => {
+  const [sneakers, error] = useAllSneakersFacade();
 
+  if (error) {
+    return (
+      <Container>
+        <Title
+          style={{ textAlign: 'center', fontSize: 21, color: colors.accent }}>
+          Error
+        </Title>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <HomeTitle>Sneakers</HomeTitle>
+      <Content>
+        <FlatList
+          data={sneakers}
+          showsVerticalScrollIndicator
+          renderItem={({ item }) => (
+            <Block>
+              <Label>
+                {item.name} {item.variant}
+              </Label>
+              <Brand>{item.brand}</Brand>
+              <Description>{item.description}</Description>
+              <BlockImage
+                source={{
+                  uri: item.thumbnail,
+                }}
+              />
+              <ViewBtn
+                mode="contained"
+                uppercase={false}
+                labelStyle={{ fontSize: 16 }}
+                onPress={() => {
+                  navigate('Sneaker', {
+                    id: item.id,
+                  });
+                }}>
+                View
+              </ViewBtn>
+            </Block>
+          )}
+        />
+      </Content>
+    </Container>
+  );
+};
 const HomeTitle = styled(Title, {
   fontSize: 24,
   textAlign: 'center',
@@ -53,7 +74,7 @@ const Content = styled(View, {
 });
 
 const Block = styled(View, {
-  marginTop: spacing.sm,
+  marginTop: spacing.lg,
   borderRadius: spacing.sm,
 });
 
@@ -64,7 +85,7 @@ const BlockImage = styled(Image, {
 
 const Label = styled(Subheading, {
   fontSize: 18,
-  color: colors.accent,
+  color: colors.primary,
 });
 
 const Brand = styled(Text, {
@@ -77,6 +98,7 @@ const Description = styled(Text, {
 
 const ViewBtn = styled(Button, {
   marginTop: spacing.md,
+  paddingVertical: spacing.xs,
 });
 
 export default Home;
